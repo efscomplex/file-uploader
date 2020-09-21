@@ -1,5 +1,6 @@
 import React, {createRef } from 'react';
 import { styled } from 'goober'
+import Uploader from './components/Uloader'
 
 export default function MyApp() {
    const [img, setImg] = React.useState(null)
@@ -29,13 +30,13 @@ export default function MyApp() {
             <Container id='draggable' onDrop={dragHandle} onDragOver={event => event.preventDefault()}>
                <Img src='upload.svg' alt='upload'/>
                <img src={img?.props.src || '/image.svg'} alt='upload' width= '300px' style={imgStyle}/>
-               <Text style={{padding: '2rem'}}> Drag and drop you image here </Text>
+               <Text style={{padding: '2rem', opacity: img ? 0 : 1}}> Drag and drop you image here </Text>
                <Img src='upload-2.svg' alt='upload'/>
             </Container>
          </Main>
          <Footer>
             <Text>Or</Text>
-            <input ref={loaderRef} accept='.jpg, .png, .svg' type='file' onChange={onChangeUploader}></input>
+            <Uploader ref={loaderRef} accept='.jpg, .png, .svg' type='file' onChange={onChangeUploader}/>
          </Footer>
 		</App>
   )
@@ -58,21 +59,9 @@ const Img = styled('img')`
 const Footer = styled('footer')`
    margin: 1rem 0 3rem;
    font-size:1.4rem;
-   > * {
-      padding: 2rem;
-   }
-   input {
-      border-radius: 9px;
-      color: white;
-      padding: .6rem 1.4rem;
-      font-size: 1.2rem;
+   ${Uploader}{
+      margin: 1rem auto;
       font-family: 'Montserrat';
-      background-color: var(--dark-accent);
-      &:hover {
-         background-color: var(--accent);
-         color: var(--dark);
-      }
-      cursor: pointer;
    }
 `
 const Container = styled('div')`
@@ -80,14 +69,19 @@ const Container = styled('div')`
    display: inline-block;
    padding: 3rem 6rem 0;
    border-radius: 19px;
-   border: 3px dashed var(--dark-accent);
-   background-image: linear-gradient(135deg, rgba(222, 246, 229, .3) 40%, rgba(186, 104, 200, .3));
-   background: linear-gradient(135deg, rgba(222, 246, 229, .3) 40%, rgba(186, 104, 200, .3));
-
+   background-color: var(--text);
    > * {margin: auto;}
    * { max-width: 100%;}
 `
 const Main = styled('main')`
+  background: linear-gradient(to right, var(--accent) 15px, transparent 15px, transparent 30px) 
+   repeat-x top / 30px 2px, linear-gradient(to right, var(--accent) 15px, transparent 15px, transparent 30px) repeat-x bottom / 30px 2px,
+   linear-gradient(var(--accent) 15px, transparent 15px, transparent 30px) 
+   repeat-y 100% 0 / 2px 30px,linear-gradient(var(--accent) 15px, transparent 15px, transparent 30px) 
+   repeat-y 0 100% / 2px 30px;
+  margin: auto;
+  width: fit-content;
+  padding: 2rem;
 `
 const Title = styled('h1')`
    text-transform: capitalize;
@@ -98,8 +92,8 @@ const Text = styled('h4')`
    color: var(--text-mute);
 `
 const App = styled('div')`
-   background-color: var(--bg);
-   color: var(--text);
+   background-color: var(--dark);
+   color:var(--text);
    padding: 10vw;
    text-align: center;
    font-family: 'Montserrat';
