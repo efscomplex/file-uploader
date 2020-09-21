@@ -16,10 +16,6 @@ export default function MyApp() {
       const image = React.createElement('img',{src})
       setImg(()=> image)
    }
-   const imgStyle = {
-      borderRadius: '6px',
-      boxShadow: '26px 31px 28px -24px rgba(0,0,0,0.69)'
-   }
   return (
 		<App className='App'>
 			<header>
@@ -29,8 +25,8 @@ export default function MyApp() {
          <Main>
             <Container id='draggable' onDrop={dragHandle} onDragOver={event => event.preventDefault()}>
                <Img src='upload.svg' alt='upload'/>
-               <img src={img?.props.src || '/image.svg'} alt='upload' width= '300px' style={imgStyle}/>
-               <Text style={{padding: '2rem', opacity: img ? 0 : 1}}> Drag and drop you image here </Text>
+               <ImgLoaded src={img?.props.src || '/image.svg'} alt='upload'/>
+               {!img && <Text style={{padding: '2rem'}}> Drag and drop you image here </Text>}
                <Img src='upload-2.svg' alt='upload'/>
             </Container>
          </Main>
@@ -41,6 +37,13 @@ export default function MyApp() {
 		</App>
   )
 }
+const tabletBreak = '920px'
+const ImgLoaded = styled('img')`
+   height: 100%;
+   width: 300px;
+   border-radius: 6px;
+   box-shadow: 26px 31px 28px -24px rgba(0,0,0,0.69);
+`
 const Img = styled('img')`
    position: absolute;
    width: 220px;
@@ -55,6 +58,9 @@ const Img = styled('img')`
       bottom: 0;
       transform: translate(50%,50%);
    }
+   @media (max-width:${tabletBreak} ){
+      display: none;
+   }
 `
 const Footer = styled('footer')`
    margin: 1rem 0 3rem;
@@ -67,7 +73,8 @@ const Footer = styled('footer')`
 const Container = styled('div')`
    position: relative;  
    display: inline-block;
-   padding: 3rem 6rem 0;
+   padding: 1rem;
+   @media(min-width: ${tabletBreak}){padding: 3rem 6rem 0;}
    border-radius: 19px;
    background-color: var(--text);
    > * {margin: auto;}
@@ -80,6 +87,7 @@ const Main = styled('main')`
    repeat-y 100% 0 / 2px 30px,linear-gradient(var(--accent) 15px, transparent 15px, transparent 30px) 
    repeat-y 0 100% / 2px 30px;
   margin: auto;
+  min-width: 320px;
   width: fit-content;
   padding: 2rem;
 `
@@ -95,6 +103,9 @@ const App = styled('div')`
    background-color: var(--dark);
    color:var(--text);
    padding: 10vw;
+   @media(max-width: ${tabletBreak}){
+      padding: 4vw;
+   }
    text-align: center;
    font-family: 'Montserrat';
    header{ margin-bottom: 3rem;}
