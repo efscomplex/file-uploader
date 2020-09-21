@@ -74,7 +74,9 @@ const Container = styled('div')`
    position: relative;  
    display: inline-block;
    padding: 1rem;
-   @media(min-width: ${tabletBreak}){padding: 3rem 6rem 0;}
+   @media(min-width: ${tabletBreak}){
+      padding: 3rem 6rem 3rem;
+   }
    border-radius: 19px;
    background-color: var(--text);
    > * {margin: auto;}
